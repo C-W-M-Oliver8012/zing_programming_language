@@ -14,10 +14,10 @@ typedef struct String {
 } String;
 
 String string_new(void);
-String string_from(char *s);
-String string_from_file(char *filename);
-void string_push_str(String *self, char *str);
-void string_push_char(String *self, char c);
+String string_from(const char *str);
+String string_from_file(const char *filename);
+void string_push_str(String *self, const char *str);
+void string_push_char(String *self, const char c);
 void string_free(String *self);
 
 #endif

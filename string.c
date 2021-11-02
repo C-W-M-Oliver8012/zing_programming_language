@@ -13,21 +13,21 @@ String string_new(void) {
 	return string;
 }
 
-String string_from(char *s) {
+String string_from(const char *str) {
 	String string = string_new();
-	string.len = strlen(s) + 1;
+	string.len = strlen(str) + 1;
 	char *temp = malloc(string.len);
 	if (temp == NULL) {
 		printf("Failed to allocate memory in \"string_new()\".\n");
 		exit(-1);
 	}
 	string.s = temp;
-	memcpy(string.s, s, string.len - 1);
+	memcpy(string.s, str, string.len - 1);
 	string.s[string.len - 1] = 0;
 	return string;
 }
 
-String string_from_file(char *filename) {
+String string_from_file(const char *filename) {
 	String string = string_new();
 	char temp_string[1000];
 	FILE *file = fopen(filename, "r");
@@ -42,7 +42,7 @@ String string_from_file(char *filename) {
 	return string;
 }
 
-void string_push_str(String *self, char *str) {
+void string_push_str(String *self, const char *str) {
 	usize str_len = strlen(str);
 	char *temp = realloc(self->s, self->len + str_len);
 	if (temp == NULL) {
@@ -55,7 +55,7 @@ void string_push_str(String *self, char *str) {
 	self->s[self->len - 1] = 0;
 }
 
-void string_push_char(String *self, char c) {
+void string_push_char(String *self, const char c) {
 	self->len = self->len + 1;
 	char *temp = realloc(self->s, self->len);
 	if (temp == NULL) {
