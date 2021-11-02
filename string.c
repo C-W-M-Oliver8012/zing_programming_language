@@ -1,6 +1,10 @@
 #include "string.h"
 
-String string_new(void) {
+String string_new(String *self) {
+	if (self != NULL) {
+		string_free(self);
+	}
+
 	String string;
 	char *temp = malloc(1);
 	if (temp == NULL) {
@@ -13,8 +17,12 @@ String string_new(void) {
 	return string;
 }
 
-String string_from(const char *str) {
-	String string = string_new();
+String string_from(String *self, const char *str) {
+	if (self != NULL) {
+		string_free(self);
+	}
+
+	String string = string_new(NULL);
 	string.len = strlen(str) + 1;
 	char *temp = malloc(string.len);
 	if (temp == NULL) {
@@ -27,8 +35,12 @@ String string_from(const char *str) {
 	return string;
 }
 
-String string_from_file(const char *filename) {
-	String string = string_new();
+String string_from_file(String *self, const char *filename) {
+	if (self != NULL) {
+		string_free(self);
+	}
+
+	String string = string_new(NULL);
 	char temp_string[1000];
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
