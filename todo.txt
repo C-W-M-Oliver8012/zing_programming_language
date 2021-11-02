@@ -1,0 +1,5 @@
+* transpiles to C17
+* modules
+* types defined with structs
+* generics
+* mut and immutable
