@@ -3,6 +3,7 @@
 usize string_new(String *self) {
 	char *temp = malloc(1);
 	if (temp == NULL) {
+		self->len = 0;
 		return 0;
 	}
 	self->s = temp;
@@ -15,6 +16,7 @@ usize string_from(String *self, const char *str) {
 	self->len = strlen(str) + 1;
 	char *temp = malloc(self->len);
 	if (temp == NULL) {
+		self->len = 0;
 		return 0;
 	}
 	self->s = temp;
