@@ -1,6 +1,6 @@
 #include "string.h"
 
-size_t string_new(String *self) {
+usize string_new(String *self) {
 	char *temp = malloc(1);
 	if (temp == NULL) {
 		return 0;
@@ -11,7 +11,7 @@ size_t string_new(String *self) {
 	return self->len;
 }
 
-size_t string_from(String *self, const char *str) {
+usize string_from(String *self, const char *str) {
 	self->len = strlen(str) + 1;
 	char *temp = malloc(self->len);
 	if (temp == NULL) {
@@ -23,7 +23,7 @@ size_t string_from(String *self, const char *str) {
 	return self->len;
 }
 
-size_t string_from_file(String *self, const char *filename) {
+usize string_from_file(String *self, const char *filename) {
 	char temp_string[4096] = "\0";
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
@@ -36,8 +36,8 @@ size_t string_from_file(String *self, const char *filename) {
 	return self->len;
 }
 
-size_t string_push_str(String *self, const char *str) {
-	size_t str_len = strlen(str);
+usize string_push_str(String *self, const char *str) {
+	usize str_len = strlen(str);
 	char *temp = realloc(self->s, self->len + str_len);
 	if (temp == NULL) {
 		return 0;
@@ -49,7 +49,7 @@ size_t string_push_str(String *self, const char *str) {
 	return self->len;
 }
 
-size_t string_push_char(String *self, const char c) {
+usize string_push_char(String *self, const char c) {
 	self->len = self->len + 1;
 	char *temp = realloc(self->s, self->len);
 	if (temp == NULL) {
