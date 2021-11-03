@@ -1,82 +1,64 @@
 #include "string.h"
 
-String string_new(String *self) {
-	if (self != NULL) {
-		string_free(self);
-	}
-
-	String string;
+size_t string_new(String *self) {
 	char *temp = malloc(1);
 	if (temp == NULL) {
-		printf("Failed to allocate memory in \"string_new()\".\n");
-		exit(-1);
+		return 0;
 	}
-	string.s = temp;
-	string.s[0] = 0;
-	string.len = 1;
-	return string;
+	self->s = temp;
+	self->s[0] = 0;
+	self->len = 1;
+	return self->len;
 }
 
-String string_from(String *self, const char *str) {
-	if (self != NULL) {
-		string_free(self);
-	}
-
-	String string = string_new(NULL);
-	string.len = strlen(str) + 1;
-	char *temp = malloc(string.len);
+size_t string_from(String *self, const char *str) {
+	self->len = strlen(str) + 1;
+	char *temp = malloc(self->len);
 	if (temp == NULL) {
-		printf("Failed to allocate memory in \"string_new()\".\n");
-		exit(-1);
+		return 0;
 	}
-	string.s = temp;
-	memcpy(string.s, str, string.len - 1);
-	string.s[string.len - 1] = 0;
-	return string;
+	self->s = temp;
+	memcpy(self->s, str, self->len - 1);
+	self->s[self->len - 1] = 0;
+	return self->len;
 }
 
-String string_from_file(String *self, const char *filename) {
-	if (self != NULL) {
-		string_free(self);
-	}
-
-	String string = string_new(NULL);
-	char temp_string[1000];
+size_t string_from_file(String *self, const char *filename) {
+	char temp_string[4096];
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
-		printf("Unable to open file \"%s.\"\n", filename);
-		return string;
+		return 0;
 	}
-	while (fgets(temp_string, 1000, file)) {
-		string_push_str(&string, temp_string);
+	while (fread(temp_string, 1, 4096, file)) {
+		string_push_str(self, temp_string);
 	}
 	fclose(file);
-	return string;
+	return self->len;
 }
 
-void string_push_str(String *self, const char *str) {
-	usize str_len = strlen(str);
+size_t string_push_str(String *self, const char *str) {
+	size_t str_len = strlen(str);
 	char *temp = realloc(self->s, self->len + str_len);
 	if (temp == NULL) {
-		printf("Failed to allocate memory in \"string_push_str.\"");
-		exit(-1);
+		return 0;
 	}
 	self->s = temp;
 	memcpy(&self->s[self->len - 1], str, str_len);
 	self->len = self->len + str_len;
 	self->s[self->len - 1] = 0;
+	return self->len;
 }
 
-void string_push_char(String *self, const char c) {
+size_t string_push_char(String *self, const char c) {
 	self->len = self->len + 1;
 	char *temp = realloc(self->s, self->len);
 	if (temp == NULL) {
-		printf("Failed to allocate memory in \"string_push_char()\".\n");
-		exit(-1);
+		return 0;
 	}
 	self->s = temp;
 	self->s[self->len - 2] = c;
 	self->s[self->len - 1] = 0;
+	return self->len;
 }
 
 void string_free(String *self) {

@@ -13,11 +13,11 @@ typedef struct String {
 	usize len;
 } String;
 
-String string_new(String *self);
-String string_from(String *self, const char *str);
-String string_from_file(String *self, const char *filename);
-void string_push_str(String *self, const char *str);
-void string_push_char(String *self, const char c);
+size_t string_new(String *self);
+size_t string_from(String *self, const char *str);
+size_t string_from_file(String *self, const char *filename);
+size_t string_push_str(String *self, const char *str);
+size_t string_push_char(String *self, const char c);
 void string_free(String *self);
 
 #endif
