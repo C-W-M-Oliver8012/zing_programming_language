@@ -43,6 +43,25 @@ char *string_from_file(String *self, const char *filename) {
 	return self->s;
 }
 
+char *string_from_stdin(String *self) {
+	string_new(self);
+	char temp_string[4096] = "\0";
+	while (fgets(temp_string, 4096, stdin)) {
+		usize str_len = strlen(temp_string);
+		if (temp_string[str_len - 1] == '\n') {
+			temp_string[str_len - 1] = 0;
+			if (!string_push_str(self, temp_string)) {
+				return NULL;
+			}
+			break;
+		}
+		if (!string_push_str(self, temp_string)) {
+			return NULL;
+		}
+	}
+	return self->s;
+}
+
 char *string_push_str(String *self, const char *str) {
 	usize str_len = strlen(str);
 	char *temp = realloc(self->s, self->len + str_len);

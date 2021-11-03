@@ -9,5 +9,10 @@ int main(int argc, char *argv[]) {
 		string_free(&file);
 	}
 
+	String input;
+	string_from_stdin(&input);
+	printf("%s: %zu\n", input.s, input.len);
+	string_free(&input);
+
 	return 0;
 }

@@ -16,6 +16,7 @@ typedef struct String {
 char *string_new(String *self);
 char *string_from(String *self, const char *str);
 char *string_from_file(String *self, const char *filename);
+char *string_from_stdin(String *self);
 char *string_push_str(String *self, const char *str);
 char *string_push_char(String *self, const char c);
 void string_free(String *self);
