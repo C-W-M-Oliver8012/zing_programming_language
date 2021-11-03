@@ -24,6 +24,7 @@ usize string_from(String *self, const char *str) {
 }
 
 usize string_from_file(String *self, const char *filename) {
+	string_new(self);
 	char temp_string[4096] = "\0";
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
