@@ -24,7 +24,7 @@ size_t string_from(String *self, const char *str) {
 }
 
 size_t string_from_file(String *self, const char *filename) {
-	char temp_string[4096];
+	char temp_string[4096] = "\0";
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
 		return 0;
