@@ -66,8 +66,9 @@ char *string_push_str(String *self, const char *str) {
 	usize str_len = strlen(str);
 	char *temp = realloc(self->s, self->len + str_len);
 	if (temp == NULL) {
-		self->len = 0;
-		self->s = NULL;
+		if (self->s != NULL) {
+			string_free(self);
+		}
 		return NULL;
 	}
 	self->s = temp;
@@ -81,8 +82,9 @@ char *string_push_char(String *self, const char c) {
 	self->len = self->len + 1;
 	char *temp = realloc(self->s, self->len);
 	if (temp == NULL) {
-		self->len = 0;
-		self->s = NULL;
+		if (self->s != NULL) {
+			string_free(self);
+		}
 		return NULL;
 	}
 	self->s = temp;
@@ -91,6 +93,21 @@ char *string_push_char(String *self, const char c) {
 	return self->s;
 }
 
+char *string_push_string(String *self, const String *s) {
+	char *temp = realloc(self->s, self->len + s->len - 1);
+	if (temp == NULL) {
+		if (self->s != NULL) {
+			string_free(self);
+		}
+		return NULL;
+	}
+	self->s = temp;
+	memcpy(&self->s[self->len - 1], s->s, s->len);
+	self->len = self->len + s->len - 1;
+	return self->s;
+}
+
 void string_free(String *self) {
 	free(self->s);
+	self->len = 0;
 }
