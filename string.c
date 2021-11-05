@@ -50,12 +50,12 @@ char *string_from_stdin(String *self) {
 		usize str_len = strlen(temp_string);
 		if (temp_string[str_len - 1] == '\n') {
 			temp_string[str_len - 1] = 0;
-			if (!string_push_str(self, temp_string)) {
+			if (string_push_str(self, temp_string) == NULL) {
 				return NULL;
 			}
 			break;
 		}
-		if (!string_push_str(self, temp_string)) {
+		if (string_push_str(self, temp_string) == NULL) {
 			return NULL;
 		}
 	}
