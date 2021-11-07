@@ -1,7 +1,7 @@
 #include "string.h"
 
 char *string_new(String *self) {
-	char *temp = malloc(1);
+	char *temp = malloc(sizeof temp);
 	if (temp == NULL) {
 		self->len = 0;
 		self->s = NULL;
@@ -15,7 +15,7 @@ char *string_new(String *self) {
 
 char *string_from(String *self, const char *str) {
 	self->len = strlen(str) + 1;
-	char *temp = malloc(self->len);
+	char *temp = malloc(sizeof temp * self->len);
 	if (temp == NULL) {
 		self->len = 0;
 		self->s = NULL;
@@ -32,8 +32,9 @@ char *string_from_file(String *self, const char *filename) {
 	char temp_string[4096] = "\0";
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
-		self->len = 0;
-		self->s = NULL;
+		if (self->s != NULL) {
+			string_free(self);
+		}
 		return NULL;
 	}
 	while (fread(temp_string, 1, 4096, file)) {
@@ -94,7 +95,7 @@ char *string_push_char(String *self, const char c) {
 }
 
 char *string_push_string(String *self, const String *s) {
-	char *temp = realloc(self->s, self->len + s->len - 1);
+	char *temp = realloc(self->s, sizeof temp * (self->len + s->len - 1));
 	if (temp == NULL) {
 		if (self->s != NULL) {
 			string_free(self);
@@ -109,5 +110,6 @@ char *string_push_string(String *self, const String *s) {
 
 void string_free(String *self) {
 	free(self->s);
+	self->s = NULL;
 	self->len = 0;
 }

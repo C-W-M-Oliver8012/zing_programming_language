@@ -4,9 +4,10 @@
 int main(int argc, char *argv[]) {
 	if (argc >= 2) {
 		String file;
-		string_from_file(&file, argv[1]);
-		printf("%s\n", file.s);
-		string_free(&file);
+		if (string_from_file(&file, argv[1]) != NULL) {
+			printf("%s\n", file.s);
+			string_free(&file);
+		}
 	}
 
 	return 0;
